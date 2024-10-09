@@ -1,6 +1,7 @@
 services:
-  customerServiceDb:
+  mysql:
     image: docker.io/library/mysql:latest
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: test
       MYSQL_DATABASE: customer_db
@@ -12,6 +13,7 @@ services:
       - mysql_data:/var/lib/mysql
   postgresql:
     image: docker.io/library/postgres:latest
+    container_name: postgresql
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
@@ -22,39 +24,39 @@ services:
       - "5432:5432"
   eureka:
     image: "localhost/eurekaserver"
-    container_name: "eureka"
+    container_name: eureka
     build: ./eureka #image build
     ports:
       - "8888:8888"
     environment:
-      - SPRING_CLOUD_CONFIG_PROFILE=dev
+      - EUREKA_INSTANCE_HOSTNAME=eureka
+      - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
+      - SPRING_CLOUD_CONFIG_PROFILE=prod
+      - SPRING_CLOUD_CONFIG_LABEL=main
     networks:
       - common
   gateway:
     image: "localhost/gateway"
-    container_name: "gateway"
+    container_name: gateway
     build: ./gateway
     ports:
       - "8090:8090"
     networks:
       - common
     environment:
+      - EUREKA_URL = http://eureka:8888
+      - EUREKA_INSTANCE_HOSTNAME=gateway
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
+      - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
+      - SPRING_CLOUD_CONFIG_PROFILE=prod
+      - SPRING_CLOUD_CONFIG_LABEL=main
     depends_on:
       - eureka
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-    volumes:
-      - mongo_data:/data/db
+
 
   configserver:
     image: "localhost/configserver"
-    container_name: "configserver"
+    container_name: configserver
     build:  ./configserver
     ports:
       - "8001:8001"
@@ -62,6 +64,9 @@ services:
       - common
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
+      - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
+      - SPRING_CLOUD_CONFIG_PROFILE=prod
+      - SPRING_CLOUD_CONFIG_LABEL=main
     depends_on:
       - eureka
   customer:
@@ -73,13 +78,14 @@ services:
     networks:
       - common
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/customer_db?allowPublicKeyRetrieval=true&useSSL=false
-      SPRING_DATASOURCE_USERNAME: my_user
-      SPRING_DATASOURCE_PASSWORD: test
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8888/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
+      - EUREKA_INSTANCE_HOSTNAME=customerservice
+      - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
+      - SPRING_CLOUD_CONFIG_PROFILE=prod
+      - SPRING_CLOUD_CONFIG_LABEL=main
     depends_on:
       - eureka
-      - customerServiceDb
+      - mysql
 
   product:
     image: "localhost/productservice"
@@ -90,10 +96,11 @@ services:
     networks:
       - common
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgres://postgres:5432/postgres?allowPublicKeyRetrieval=true&useSSL=false
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: test
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8888/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
+      - EUREKA_INSTANCE_HOSTNAME=productservice
+      - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
+      - SPRING_CLOUD_CONFIG_PROFILE=prod
+      - SPRING_CLOUD_CONFIG_LABEL=main
     depends_on:
       - eureka
       - postgresql
@@ -101,7 +108,6 @@ services:
 volumes:
   mysql_data:
   postgres_data:
-  mongo_data:
 
 networks:
   common:
