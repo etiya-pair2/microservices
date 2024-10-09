@@ -42,6 +42,15 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
     depends_on:
       - eureka
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - mongo_data:/data/db
 
   configserver:
     image: "localhost/configserver"
@@ -92,6 +101,7 @@ services:
 volumes:
   mysql_data:
   postgres_data:
+  mongo_data:
 
 networks:
   common:
