@@ -11,6 +11,11 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
   postgresql:
     image: docker.io/library/postgres:latest
     container_name: postgresql
@@ -22,36 +27,15 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-  eureka:
-    image: "localhost/eurekaserver"
-    container_name: eureka
-    build: ./eureka #image build
-    ports:
-      - "8888:8888"
-    networks:
-      - common
-  gateway:
-    image: "localhost/gateway"
-    container_name: gateway
-    build: ./gateway
-    ports:
-      - "8090:8090"
-    networks:
-      - common
-    environment:
-      - EUREKA_URL = http://eureka:8888
-      - EUREKA_INSTANCE_HOSTNAME=gateway
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
-      - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
-      - SPRING_CLOUD_CONFIG_PROFILE=prod
-    depends_on:
-      - eureka
-
-
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
   configserver:
     image: "localhost/configserver"
     container_name: configserver
-    build:  ./configserver
+    build: ./configserver
     ports:
       - "8001:8001"
     networks:
@@ -60,8 +44,49 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
       - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
       - SPRING_CLOUD_CONFIG_PROFILE=prod
+      - SPRING_CLOUD_CONFIG_LABEL=main
     depends_on:
-      - eureka
+      - mysql
+      - postgresql
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8001/actuator/health" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  eureka:
+    image: "localhost/eurekaserver"
+    container_name: eureka
+    build: ./eureka #image build
+    ports:
+      - "8888:8888"
+    networks:
+      - common
+    depends_on:
+      configserver:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+
+  gateway:
+    image: "localhost/gateway"
+    container_name: gateway
+    build: ./gateway
+    ports:
+      - "8090:8090"
+    networks:
+      - common
+
+    depends_on:
+      eureka:
+        condition: service_healthy
+
+
+
   customer:
     image: "localhost/customerservice"
     container_name: "customerservice"
@@ -71,9 +96,8 @@ services:
     networks:
       - common
     depends_on:
-      - eureka
-      - mysql
-
+        eureka:
+          condition: service_healthy
   product:
     image: "localhost/productservice"
     container_name: "productservice"
@@ -83,8 +107,8 @@ services:
     networks:
       - common
     depends_on:
-      - eureka
-      - postgresql
+        eureka:
+          condition: service_healthy
 
 volumes:
   mysql_data:
