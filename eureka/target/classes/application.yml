@@ -1,17 +1,10 @@
 spring:
+  config:
+    import: "optional:configserver:"
   application:
     name: eureka
-
-server:
-  port: 8888
-
-
-
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    register-with-eureka: false 
-    fetch-registry: false 
-    serviceUrl:
-      defaultZone: http://localhost:8888/eureka/
+  cloud:
+    config:
+      uri: http://localhost:8001
+      profile: dev
+      label: main

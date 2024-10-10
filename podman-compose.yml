@@ -28,11 +28,6 @@ services:
     build: ./eureka #image build
     ports:
       - "8888:8888"
-    environment:
-      - EUREKA_INSTANCE_HOSTNAME=eureka
-      - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
-      - SPRING_CLOUD_CONFIG_PROFILE=prod
-      - SPRING_CLOUD_CONFIG_LABEL=main
     networks:
       - common
   gateway:
@@ -49,7 +44,6 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
       - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
       - SPRING_CLOUD_CONFIG_PROFILE=prod
-      - SPRING_CLOUD_CONFIG_LABEL=main
     depends_on:
       - eureka
 
@@ -66,7 +60,6 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
       - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
       - SPRING_CLOUD_CONFIG_PROFILE=prod
-      - SPRING_CLOUD_CONFIG_LABEL=main
     depends_on:
       - eureka
   customer:
@@ -77,12 +70,6 @@ services:
       - "8080:8080"
     networks:
       - common
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
-      - EUREKA_INSTANCE_HOSTNAME=customerservice
-      - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
-      - SPRING_CLOUD_CONFIG_PROFILE=prod
-      - SPRING_CLOUD_CONFIG_LABEL=main
     depends_on:
       - eureka
       - mysql
@@ -95,12 +82,6 @@ services:
       - "8081:8081"
     networks:
       - common
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
-      - EUREKA_INSTANCE_HOSTNAME=productservice
-      - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
-      - SPRING_CLOUD_CONFIG_PROFILE=prod
-      - SPRING_CLOUD_CONFIG_LABEL=main
     depends_on:
       - eureka
       - postgresql
