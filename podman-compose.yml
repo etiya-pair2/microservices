@@ -76,14 +76,6 @@ services:
       - "8001:8001"
     networks:
       - common
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8888/eureka/
-      - SPRING_CLOUD_CONFIG_URI=http://configserver:8001
-      - SPRING_CLOUD_CONFIG_PROFILE=prod
-      - SPRING_CLOUD_CONFIG_LABEL=main
-    depends_on:
-      - mysql
-      - postgresql
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8001/actuator/health" ]
       interval: 5s
@@ -106,6 +98,8 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
+    environment:
+      - SPRING_ACTIVE_PROFILES=podman
 
   gateway:
     image: "localhost/gateway"
