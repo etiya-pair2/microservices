@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Embeddable
@@ -19,7 +20,7 @@ import java.util.Objects;
 
 public class ProductAttributeId implements Serializable {
 
-    private int productId;
+    private UUID productId;
     private int attributeId;
 
 
