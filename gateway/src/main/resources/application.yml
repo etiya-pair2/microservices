@@ -23,18 +23,6 @@
 #            uri: ${eureka.url}
 #            predicates:
 #              - Path=/eureka/**
-#server:
-#  port: 8090
-#
-#eureka:
-#  url: http://localhost:8888
-#  instance:
-#    hostname: localhost
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: true
-#    serviceUrl:
-#      defaultZone: http://localhost:8888/eureka/
 
 
 spring:
