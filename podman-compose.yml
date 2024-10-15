@@ -1,7 +1,9 @@
 services:
-  mysql:
+
+  #MYSQL
+  customerservice.db:
     image: docker.io/library/mysql:latest
-    container_name: mysql
+    container_name: customerservice.db
     environment:
       MYSQL_ROOT_PASSWORD: test
       MYSQL_DATABASE: customer_db
@@ -19,7 +21,7 @@ services:
     networks:
       - common
 
-
+ #POSTGRES
   productservice.db:
     image: docker.io/library/postgres:latest
     container_name: productservice.db
@@ -39,17 +41,21 @@ services:
     networks:
       - common
 
-  mongo:
+  #MONGO
+  orderservice.db:
+    container_name: orderservice.db
     image: mongo
     ports:
       - "27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=mongo
     volumes:
       - mongo_data:/data/db
     networks:
       - common
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.1
     hostname: zookeeper
@@ -152,6 +158,21 @@ services:
           condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=podman
+
+  #order:
+    #image: "localhost/orderservice"
+    #container_name: "orderservice"
+    #build: ./orderservice
+      #ports:
+    #- "8082:8082"
+      #networks:
+        #- common
+      #depends_on:
+        #eureka:
+      # condition: service_healthy
+      #environment:
+      #- SPRING_PROFILES_ACTIVE=podman
+
 
 volumes:
   mysql_data:
