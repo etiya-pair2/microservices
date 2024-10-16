@@ -178,6 +178,20 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=podman
 
+  identity:
+    image: "localhost/identityservice"
+    container_name: "identityservice"
+    build: ./identityservice
+    ports:
+      - "8083:8083"
+    networks:
+      - common
+    depends_on:
+      eureka:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=podman
+
   #order:
     #image: "localhost/orderservice"
     #container_name: "orderservice"
