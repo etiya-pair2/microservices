@@ -2,6 +2,7 @@ package com.etiya.identityservice.service.auth;
 
 import com.etiya.identityservice.dto.LoginRequest;
 import com.etiya.identityservice.dto.RegisterRequest;
+import com.etiya.identityservice.dto.TokenResponse;
 import com.etiya.identityservice.entity.User;
 import com.etiya.identityservice.service.user.UserService;
 import io.github.sabaurgup.security.BaseJwtService;
@@ -19,17 +20,17 @@ public class AuthServiceImpl implements AuthService
     private final BaseJwtService baseJwtService;
 
     @Override
-    public String login(LoginRequest loginRequest) {
+    public TokenResponse login(LoginRequest loginRequest) {
         UserDetails user = userService.loadUserByUsername(loginRequest.getEmail());
         boolean passwordMatching = passwordEncoder.matches(loginRequest.getPassword(), user.getPassword());
         if(!passwordMatching)
             throw new RuntimeException("E-posta veya şifre hatalı.");
 
-        return baseJwtService.generateToken(user.getUsername());
+        return new TokenResponse(baseJwtService.generateToken(user.getUsername()), true);
     }
 
     @Override
-    public String register(RegisterRequest registerRequest) {
+    public TokenResponse register(RegisterRequest registerRequest) {
         User userToAdd =new User();
         userToAdd.setEmail(registerRequest.getEmail());
         userToAdd.setName(registerRequest.getName());
@@ -37,6 +38,6 @@ public class AuthServiceImpl implements AuthService
         userToAdd.setIdentityNo(registerRequest.getIdentityNo());
         userToAdd.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         User user = userService.create(userToAdd);
-        return baseJwtService.generateToken(user.getUsername());
+        return new TokenResponse(baseJwtService.generateToken(user.getUsername()), true);
     }
 }
