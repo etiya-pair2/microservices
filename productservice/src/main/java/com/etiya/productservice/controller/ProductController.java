@@ -17,11 +17,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    @PostMapping
-    public ResponseEntity<String> add(@RequestBody Product product) {
-        productService.add(product);
-        return ResponseEntity.ok("Eklendi");
-    }
+//    @PostMapping
+//    public ResponseEntity<String> add(@RequestBody Product product) {
+//        productService.add(product);
+//        return ResponseEntity.ok("Eklendi");
+//    }
 
     @PostMapping("search")
     public List<Product> getByIds(@RequestBody List<UUID> ids)

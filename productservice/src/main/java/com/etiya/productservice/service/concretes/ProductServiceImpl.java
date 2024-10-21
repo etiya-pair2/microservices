@@ -1,6 +1,9 @@
 package com.etiya.productservice.service.concretes;
 
+import com.etiya.productservice.dto.product.*;
+import com.etiya.productservice.entity.Campaign;
 import com.etiya.productservice.entity.Product;
+import com.etiya.productservice.mapper.ProductMapper;
 import com.etiya.productservice.repository.ProductRepository;
 import com.etiya.productservice.service.abstracts.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +17,33 @@ import java.util.UUID;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
-    @Override
-    public void add(Product product) {
-        productRepository.save(product);
-    }
+    ProductMapper productMapper = ProductMapper.INSTANCE;
 
     @Override
     public List<Product> search(List<UUID> ids) {
         return productRepository.findByIdIn(ids);
+    }
+
+    @Override
+    public List<GetAllProductResponse> getAll() {
+        return productMapper.productFromGetAllResponse(productRepository.findAll());
+    }
+
+    @Override
+    public CreateProductResponse create(CreateProductRequest request) {
+        Product product = productRepository.save(productMapper.productFromCreateRequest(request));
+        return productMapper.productFromCreateResponse(product);
+    }
+
+    @Override
+    public UpdateProductResponse update(UpdateProductRequest request) {
+        Product product = productRepository.save(productMapper.productFromUpdateRequest(request));
+        return productMapper.productFromUpdateResponse(product);
+    }
+
+    @Override
+    public DeleteProductResponse delete(UUID id) {
+        productRepository.deleteById(id);
+        return productMapper.productFromDeleteResponse(productRepository.findById(id).orElseThrow());
     }
 }
