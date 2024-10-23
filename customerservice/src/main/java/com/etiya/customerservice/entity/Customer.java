@@ -5,21 +5,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 @Table(name="customers")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @UuidGenerator
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @Column(name = "created_date")
     private Date createdDate;
@@ -30,8 +34,14 @@ public class Customer {
     @Column(name = "status")
     private boolean status;
 
-    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "customer")
+    @OneToMany(mappedBy = "customer")
     private List<ContactMedium> contactMediumList;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Address> addressList;
+
+    @OneToMany(mappedBy = "customer")
+    private List<BillingAccount> billingAccountList;
 
 
 
