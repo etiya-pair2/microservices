@@ -8,4 +8,6 @@ spring:
       uri: http://localhost:8001
       profile: dev
       label: main
+server:
+  port: 8888
 
