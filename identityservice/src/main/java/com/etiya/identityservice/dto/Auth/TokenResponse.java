@@ -1,4 +1,4 @@
-package com.etiya.identityservice.dto;
+package com.etiya.identityservice.dto.Auth;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,10 +1,11 @@
-package com.etiya.identityservice.service.auth;
+package com.etiya.identityservice.service.concretes;
 
-import com.etiya.identityservice.dto.LoginRequest;
-import com.etiya.identityservice.dto.RegisterRequest;
-import com.etiya.identityservice.dto.TokenResponse;
+import com.etiya.identityservice.dto.Auth.LoginRequest;
+import com.etiya.identityservice.dto.Auth.RegisterRequest;
+import com.etiya.identityservice.dto.Auth.TokenResponse;
 import com.etiya.identityservice.entity.User;
-import com.etiya.identityservice.service.user.UserService;
+import com.etiya.identityservice.service.abstracts.AuthService;
+import com.etiya.identityservice.service.abstracts.UserService;
 import io.github.sabaurgup.security.BaseJwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

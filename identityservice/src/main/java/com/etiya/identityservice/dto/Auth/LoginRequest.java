@@ -1,4 +1,4 @@
-package com.etiya.identityservice.dto;
+package com.etiya.identityservice.dto.Auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

@@ -8,9 +8,9 @@ import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.UUID;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.util.*;
 
 @Getter
 @Setter
@@ -24,6 +24,9 @@ public class User implements UserDetails
     @GeneratedValue()
     @UuidGenerator()
     private UUID id;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserRole> userRoles;;
     @Column(name="email")
     private String email;
 
@@ -38,6 +41,17 @@ public class User implements UserDetails
 
     @Column(name="identityno")
     private String identityNo;
+
+    @Column(name = "created_date")
+    private Date createdDate;
+
+    @Column(name = "updated_date")
+    private Date updatedDate;
+
+
+    @Column(name = "status")
+    private Boolean status;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
