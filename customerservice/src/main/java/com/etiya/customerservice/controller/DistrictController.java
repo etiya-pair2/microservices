@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/districts")
+@RequestMapping("/api/v1/customer/districts")
 @RequiredArgsConstructor
 public class DistrictController {
     private final DistrictService districtService;

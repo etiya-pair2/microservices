@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/campaign-products")
+@RequestMapping("/api/v1/product/campaign-products")
 @RequiredArgsConstructor
 public class CampaignProductController {
 

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/attributes")
+@RequestMapping("/api/v1/product/attributes")
 @RequiredArgsConstructor
 public class AttributeController {
 

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController()
-@RequestMapping("/api/v1/billingAccounts")
+@RequestMapping("/api/v1/customer/billingAccounts")
 @RequiredArgsConstructor
 public class BillingAccountController {
     private final BillingAccountService billingAccountService;

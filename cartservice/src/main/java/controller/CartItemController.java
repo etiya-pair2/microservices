@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/cart-items")
+@RequestMapping("/api/v1/cart/cart-items")
 @RequiredArgsConstructor
 public class CartItemController {
 

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/product-attributes")
+@RequestMapping("/api/v1/product/product-attributes")
 @RequiredArgsConstructor
 public class ProductAttributeController {
 

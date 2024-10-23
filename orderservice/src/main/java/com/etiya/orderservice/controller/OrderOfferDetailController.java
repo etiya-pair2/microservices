@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/order-offer-details")
+@RequestMapping("/api/v1/order/order-offer-details")
 @RequiredArgsConstructor
 public class OrderOfferDetailController {
 
