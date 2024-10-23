@@ -13,24 +13,23 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@PrimaryKeyJoinColumn(name = "customer_id")
 @Table(name="individual_customers")
-public class IndividualCustomer {
-    @Id
-    @JoinColumn(name = "customer_id")
-    @OneToOne
-    private Customer customer;
+
+public class IndividualCustomer extends Customer {
 
     @NotNull
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "middleName")
+    @Column(name = "middle_name")
     private String middleName;
-    @NotNull
-    @Column(name = "lastName")
-    private String lastName;
-    @NotNull
 
+    @NotNull
+    @Column(name = "last_name")
+    private String lastName;
+
+    @NotNull
     @Column(name = "gender")
     private String gender;
 
@@ -39,15 +38,15 @@ public class IndividualCustomer {
     private Date birthday;
 
 
-    @Column(name = "motherName")
+    @Column(name = "mother_name")
     private String motherName;
 
 
-    @Column(name = "fatherName")
+    @Column(name = "father_name")
     private String fatherName;
 
     @NotNull
-    @Column(name = "nationalityId")
+    @Column(name = "nationality_id")
     private String nationalityId;
 
 
