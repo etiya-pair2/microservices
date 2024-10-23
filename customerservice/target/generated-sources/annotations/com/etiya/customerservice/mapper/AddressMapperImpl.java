@@ -17,8 +17,8 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-22T19:24:36+0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
+    date = "2024-10-23T12:15:19+0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 23 (Oracle Corporation)"
 )
 public class AddressMapperImpl implements AddressMapper {
 

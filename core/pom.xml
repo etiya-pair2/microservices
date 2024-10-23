@@ -11,13 +11,16 @@
 
     <groupId>io.github.sabaurgup</groupId>
     <artifactId>core</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
     <name>core</name>
     <url>http://maven.apache.org</url>
     <description>Etiya Academy 9th term microservice project core layer</description>
 
+    <properties>
+        <org.projectlombok.version>1.18.30</org.projectlombok.version>
+    </properties>
     <developers>
         <developer>
             <id>sabaurgup</id>
@@ -58,6 +61,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>3.3.4</version>
+        </dependency>
+
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>0.12.3</version>
@@ -73,6 +82,12 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
             <version>0.12.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+            <version>${org.projectlombok.version}</version>
         </dependency>
 
         <dependency>

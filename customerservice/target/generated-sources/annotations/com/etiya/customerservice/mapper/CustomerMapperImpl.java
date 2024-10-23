@@ -20,8 +20,8 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-22T19:24:35+0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
+    date = "2024-10-23T12:15:19+0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 23 (Oracle Corporation)"
 )
 public class CustomerMapperImpl implements CustomerMapper {
 
@@ -198,6 +198,9 @@ public class CustomerMapperImpl implements CustomerMapper {
         createBillingAccountRequest.setAddress( billingAccount.getAddress() );
         createBillingAccountRequest.setDescription( billingAccount.getDescription() );
         createBillingAccountRequest.setAccountName( billingAccount.getAccountName() );
+        createBillingAccountRequest.setAccountNumber( billingAccount.getAccountNumber() );
+        createBillingAccountRequest.setAccountStatus( billingAccount.getAccountStatus() );
+        createBillingAccountRequest.setAccountType( billingAccount.getAccountType() );
 
         return createBillingAccountRequest;
     }
