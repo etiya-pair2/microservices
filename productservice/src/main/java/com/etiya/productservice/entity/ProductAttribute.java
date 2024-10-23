@@ -7,30 +7,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="product_attributes")
+@Table(name="product_attributes",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"product_id", "attribute_id"})})
 public class ProductAttribute {
-    @EmbeddedId
-    private ProductAttributeId id;
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name="id")
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    @MapsId("productId")
     private Product product;
-
-    @Column(name="value")
-    private int value;
-
 
     @ManyToOne
     @JoinColumn(name="attribute_id")
-    @MapsId("attributeId")
     private Attribute attribute;
 
-
-
+    @Column(name="value")
+    private String value;
 }

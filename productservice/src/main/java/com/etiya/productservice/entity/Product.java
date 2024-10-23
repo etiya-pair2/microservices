@@ -15,8 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="product")
-
+@Table(name="products")
 public class Product {
 
     @Id
@@ -29,12 +28,18 @@ public class Product {
     @JoinColumn (name="category_id")
     private Category category;
 
+    @Column(name="name")
+    private String name;
+
     @NotNull
     @Column(name="unit_price")
     private double unitPrice;
 
     @Column(name="quantity")
     private int quantity;
+
+    @OneToMany(mappedBy = "product")
+    private List<CampaignProduct> campaignProducts;
 
 
 }

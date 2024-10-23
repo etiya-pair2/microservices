@@ -5,5 +5,9 @@ import com.etiya.customerservice.entity.Customer;
 import com.etiya.customerservice.entity.IndividualCustomer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IndividualCustomerRepository extends JpaRepository<Customer, Customer> {
+import java.util.UUID;
+
+public interface IndividualCustomerRepository extends JpaRepository<IndividualCustomer, UUID> {
+
+
 }

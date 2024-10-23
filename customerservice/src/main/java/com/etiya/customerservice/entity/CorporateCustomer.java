@@ -12,12 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@PrimaryKeyJoinColumn(name = "customer_id")
 @Table(name="corporate_customer")
-public class CorporateCustomer {
-    @Id
-    @OneToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+public class CorporateCustomer extends Customer{
+
 
     @NotNull
     @Column(name = "company_name")
