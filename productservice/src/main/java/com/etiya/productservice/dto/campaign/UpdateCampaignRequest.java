@@ -9,7 +9,6 @@ import java.util.UUID;
 public class UpdateCampaignRequest {
     private UUID id;
     private String name;
+    private double discount;
     private boolean status;
-    private Date startDate;
-    private Date endDate;
 }

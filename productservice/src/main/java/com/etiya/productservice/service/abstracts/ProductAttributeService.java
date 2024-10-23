@@ -12,4 +12,5 @@ public interface ProductAttributeService {
     CreateProductAttributeResponse create(CreateProductAttributeRequest request);
     UpdateProductAttributeResponse update(UpdateProductAttributeRequest request);
     DeleteProductAttributeResponse delete(UUID id);
+    GetByIdProductAttributeResponse getById(UUID id);
 }

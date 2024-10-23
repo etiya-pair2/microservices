@@ -28,11 +28,11 @@ public class Campaign {
     @Column(name = "status")
     private boolean status;
 
-    @Column(name = "start_date")
-    private Date startDate;
+    @Column(name = "created_date")
+    private Date createdDate;
 
-    @Column(name = "end_date")
-    private Date endDate;
+    @Column(name = "discount")
+    private double discount;
 
     @OneToMany(mappedBy = "campaign")
     private List<CampaignProduct> campaignProducts;

@@ -1,6 +1,8 @@
 package com.etiya.productservice.service.concretes;
 
 import com.etiya.productservice.dto.productAttribute.*;
+import com.etiya.productservice.entity.Attribute;
+import com.etiya.productservice.entity.Product;
 import com.etiya.productservice.entity.ProductAttribute;
 import com.etiya.productservice.mapper.AttributeMapper;
 import com.etiya.productservice.mapper.ProductAttributeMapper;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -26,6 +29,12 @@ public class ProductAttributeServiceImpl implements ProductAttributeService {
     }
 
     @Override
+    public GetByIdProductAttributeResponse getById(UUID id) {
+        Optional<ProductAttribute> attribute = productAttributeRepository.findById(id);
+        return attribute.map(value -> productAttributeMapper.productAttributeFromGetByIdResponse(value)).orElse(null);
+    }
+
+    @Override
     public CreateProductAttributeResponse create(CreateProductAttributeRequest request) {
         ProductAttribute productAttribute = productAttributeMapper.productAttributeFromCreateRequest(request);
         return productAttributeMapper.productAttributeFromCreateResponse(productAttribute);
@@ -39,7 +48,10 @@ public class ProductAttributeServiceImpl implements ProductAttributeService {
 
     @Override
     public DeleteProductAttributeResponse delete(UUID id) {
-        productAttributeRepository.deleteById(id);
-        return productAttributeMapper.productAttributeFromDeleteResponse(productAttributeRepository.findById(id).orElseThrow());
+        Optional<ProductAttribute> productAttribute  = productAttributeRepository.findById(id);
+        productAttribute.ifPresent(productAttributeRepository::delete);
+        return productAttributeMapper.productAttributeFromDeleteResponse(productAttribute.get());
     }
+
+
 }

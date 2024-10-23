@@ -1,6 +1,7 @@
 package com.etiya.productservice.service.concretes;
 
 import com.etiya.productservice.dto.campaignProduct.*;
+import com.etiya.productservice.entity.Attribute;
 import com.etiya.productservice.entity.CampaignProduct;
 import com.etiya.productservice.mapper.CampaignProductMapper;
 import com.etiya.productservice.repository.CampaignProductRepository;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,6 +23,12 @@ public class CampaignProductServiceImpl implements CampaignProductService {
     @Override
     public List<GetAllCampaignProductResponse> getAll() {
         return campaignProductMapper.campaignProductFromGetAllResponse(campaignProductRepository.findAll());
+    }
+
+    @Override
+    public GetByIdCampaignProductResponse getById(UUID id) {
+        Optional<CampaignProduct> campaignProduct = campaignProductRepository.findById(id);
+        return campaignProduct.map(value -> campaignProductMapper.campaignProductFromGetByIdResponse(value)).orElse(null);
     }
 
     @Override
@@ -40,4 +48,6 @@ public class CampaignProductServiceImpl implements CampaignProductService {
         campaignProductRepository.deleteById(id);
         return campaignProductMapper.campaignProductFromDeleteResponse(campaignProductRepository.findById(id).orElseThrow());
     }
+
+
 }

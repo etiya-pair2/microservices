@@ -8,7 +8,5 @@ import java.util.Date;
 @Data
 public class CreateCampaignRequest {
     private String name;
-    private boolean status;
-    private Date startDate;
-    private Date endDate;
+    private double discount;
 }

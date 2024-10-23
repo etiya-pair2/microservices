@@ -9,7 +9,8 @@ import java.util.UUID;
 public class CreateCampaignResponse {
     private UUID id;
     private String name;
+    private double discount;
     private boolean status;
-    private Date startDate;
-    private Date endDate;
+    private Date createdDate;
+
 }

@@ -5,6 +5,7 @@ import com.etiya.productservice.dto.category.*;
 import com.etiya.productservice.entity.Attribute;
 import com.etiya.productservice.entity.Category;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public interface AttributeMapper {
 
     List<GetAllAttributeResponse> attributeFromGetAllResponse(List<Attribute> attributes);
 
+//    @Mapping(source = "name", target = "name")
     GetByIdAttributeResponse attributeFromGetByIdResponse(Attribute attribute);
 
     DeleteAttributeResponse attributeFromDeleteResponse(Attribute attribute);

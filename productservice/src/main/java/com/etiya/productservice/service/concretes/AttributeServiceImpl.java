@@ -2,6 +2,7 @@ package com.etiya.productservice.service.concretes;
 
 import com.etiya.productservice.dto.attribute.*;
 import com.etiya.productservice.entity.Attribute;
+import com.etiya.productservice.entity.Category;
 import com.etiya.productservice.mapper.AttributeMapper;
 import com.etiya.productservice.repository.AttributeRepository;
 import com.etiya.productservice.service.abstracts.AttributeService;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,6 +24,13 @@ public class AttributeServiceImpl implements AttributeService {
     public List<GetAllAttributeResponse> getAll() {
         return attributeMapper.attributeFromGetAllResponse(attributeRepository.findAll());
     }
+
+    @Override
+    public GetByIdAttributeResponse getById(UUID id) {
+        Optional<Attribute> attribute = attributeRepository.findById(id);
+        return attribute.map(value -> attributeMapper.attributeFromGetByIdResponse(value)).orElse(null);
+    }
+
 
     @Override
     public CreateAttributeResponse create(CreateAttributeRequest request) {
@@ -39,7 +48,8 @@ public class AttributeServiceImpl implements AttributeService {
 
     @Override
     public DeleteAttributeResponse delete(UUID id) {
-        attributeRepository.deleteById(id);
-        return attributeMapper.attributeFromDeleteResponse(attributeRepository.findById(id).orElseThrow());
+        Optional<Attribute> attribute = attributeRepository.findById(id);
+        attribute.ifPresent(attributeRepository::delete);
+        return attributeMapper.attributeFromDeleteResponse(attribute.get());
     }
 }

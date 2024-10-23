@@ -1,6 +1,7 @@
 package com.etiya.productservice.service.concretes;
 
 import com.etiya.productservice.dto.product.*;
+import com.etiya.productservice.entity.Attribute;
 import com.etiya.productservice.entity.Campaign;
 import com.etiya.productservice.entity.Product;
 import com.etiya.productservice.mapper.ProductMapper;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -26,7 +28,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<GetAllProductResponse> getAll() {
+
         return productMapper.productFromGetAllResponse(productRepository.findAll());
+
+    }
+
+    @Override
+    public GetByIdProductResponse getById(UUID id) {
+        Optional<Product> product = productRepository.findById(id);
+        return product.map(value -> productMapper.productFromGetByIdResponse(value)).orElse(null);
     }
 
     @Override
@@ -43,7 +53,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public DeleteProductResponse delete(UUID id) {
-        productRepository.deleteById(id);
-        return productMapper.productFromDeleteResponse(productRepository.findById(id).orElseThrow());
+        Optional<Product>  product = productRepository.findById(id);
+        if(product.isPresent()){
+            productRepository.deleteById(id);
+            return productMapper.productFromDeleteResponse(productRepository.findById(id).orElseThrow());
+        }
+        return null;
     }
+
+
 }

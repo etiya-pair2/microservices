@@ -12,4 +12,5 @@ public interface CampaignService {
     CreateCampaignResponse create(CreateCampaignRequest request);
     UpdateCampaignResponse update(UpdateCampaignRequest request);
     DeleteCampaignResponse delete(UUID id);
+    GetByIdCampaignResponse getById(UUID id);
 }

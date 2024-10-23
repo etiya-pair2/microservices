@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,6 +26,12 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
+    public GetByIdCategoryResponse getById(UUID id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        return category.map(value -> categoryMapper.categoryFromGetByIdResponse(value)).orElse(null);
+    }
+
+    @Override
     public CreateCategoryResponse create(CreateCategoryRequest request) {
         Category category = categoryRepository.save(categoryMapper.categoryFromCreateRequest(request));
         return categoryMapper.categoryFromCreateResponse(category);
@@ -36,10 +43,12 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryMapper.categoryFromUpdateResponse(category);
     }
 
+    // TODO: metodun içeriğini tartış
     @Override
     public DeleteCategoryResponse delete(UUID id) {
-        categoryRepository.deleteById(id);
-        return categoryMapper.categoryFromDeleteResponse(categoryRepository.findById(id).orElseThrow());
+        Category category = categoryRepository.findById(id).orElseThrow();
+        categoryRepository.delete(category);
+        return categoryMapper.categoryFromDeleteResponse(category);
     }
 
 }

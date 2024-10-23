@@ -10,6 +10,8 @@ public class UpdateCampaignResponse {
     private UUID id;
     private String name;
     private boolean status;
-    private Date startDate;
-    private Date endDate;
+    private double discount;
+    private Date createdDate;
+
+
 }

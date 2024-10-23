@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface AttributeService {
 
     List<GetAllAttributeResponse> getAll();
+    GetByIdAttributeResponse getById(UUID id);
     CreateAttributeResponse create(CreateAttributeRequest request);
     UpdateAttributeResponse update(UpdateAttributeRequest request);
     DeleteAttributeResponse delete(UUID id);
