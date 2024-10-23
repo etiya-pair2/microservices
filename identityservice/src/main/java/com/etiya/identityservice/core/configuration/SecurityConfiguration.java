@@ -1,6 +1,6 @@
 package com.etiya.identityservice.core.configuration;
 
-import com.etiya.identityservice.service.user.UserService;
+import com.etiya.identityservice.service.abstracts.UserService;
 import io.github.sabaurgup.security.BaseJwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

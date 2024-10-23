@@ -11,7 +11,6 @@ import java.security.Key;
 import java.util.Date;
 
 
-
 @Service
 public class BaseJwtService {
     // TODO: Read from env variables.
