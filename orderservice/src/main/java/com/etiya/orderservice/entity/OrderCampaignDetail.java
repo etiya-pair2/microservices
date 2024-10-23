@@ -4,24 +4,24 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
 @Setter
 @Data
-@Document(collection = "orders")
-public class Order {
+@Document(collection = "order_campaign_details")
+public class OrderCampaignDetail {
+
     @Id
     private UUID id;
 
-    private UUID billingAccountId;
-    private UUID userId;
-    private UUID orderAddressId;
-    private Date date;
+    private UUID campaignProductsId;
+    private int quantity;
+    private double unitPrice;
+    private double discount;
 
-    public Order() {
+    public OrderCampaignDetail() {
         this.id = UUID.randomUUID();
     }
 }
