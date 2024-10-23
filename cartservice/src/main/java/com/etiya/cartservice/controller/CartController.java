@@ -1,5 +1,7 @@
 package com.etiya.cartservice.controller;
 import com.etiya.cartservice.dto.cart.*;
+import com.etiya.cartservice.entity.Cart;
+import com.etiya.cartservice.service.concretes.CartServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,35 +16,26 @@ import java.util.UUID;
 @RequestMapping("/api/v1/cart/carts")
 @RequiredArgsConstructor
 public class CartController {
+    private final CartServiceImpl cartService;
 
-    private final CartService cartService;
-
-    @GetMapping("/getAll")
-    public List<GetAllCartResponse> getAll() {
-        return cartService.getAll();
+    @GetMapping("/{cartId}")
+    public Cart getCart(@PathVariable String cartId) {
+        return cartService.getCart(cartId);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GetByIdCartResponse> getById(@PathVariable UUID id) {
-        GetByIdCartResponse response = cartService.getById(id);
-        return ResponseEntity.ok(response);
+    @PostMapping
+    public void createCart(@RequestBody Cart cart) {
+        cartService.saveCart(cart);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<CreateCartResponse> create(@RequestBody @Valid CreateCartRequest request) {
-        CreateCartResponse response = cartService.create(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    @PutMapping
+    public void updateCart(@RequestBody Cart cart) {
+        cartService.updateCart(cart);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<UpdateCartResponse> update(@RequestBody @Valid UpdateCartRequest request) {
-        UpdateCartResponse response = cartService.update(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<DeleteCartResponse> delete(@PathVariable UUID id) {
-        DeleteCartResponse response = cartService.delete(id);
-        return ResponseEntity.ok(response);
+    @DeleteMapping("/{cartId}")
+    public void deleteCart(@PathVariable String cartId) {
+        cartService.deleteCart(cartId);
     }
 }
+

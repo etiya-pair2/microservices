@@ -1,7 +1,6 @@
 package com.etiya.cartservice.service.concretes;
 
 import com.etiya.cartservice.dto.cart.*;
-import com.etiya.cartservice.mapper.CartMapper;
 import com.etiya.cartservice.entity.Cart;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,42 +13,28 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class CartServiceImpl implements CartService {
-    @Autowired
+public class CartServiceImpl {
+
+
     private final CartRepository cartRepository;
 
-    @Override
-    public List<GetAllCartResponse> getAll() {
-        List<Cart> carts = cartRepository.findAll();
-        return CartMapper.INSTANCE.cartFromGetAllResponse(carts);
+    // Sepeti al
+    public Cart getCart(String cartId) {
+        return cartRepository.findById(cartId);
     }
 
-    @Override
-    public GetByIdCartResponse getById(UUID id) {
-        Cart cart = cartRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
-        return CartMapper.INSTANCE.cartFromGetByIdResponse(cart);
-    }
-
-    @Override
-    public CreateCartResponse create(CreateCartRequest request) {
-        Cart cart = CartMapper.INSTANCE.cartFromCreateRequest(request);
+    // Sepeti kaydet
+    public void saveCart(Cart cart) {
         cartRepository.save(cart);
-        return CartMapper.INSTANCE.cartFromCreateResponse(cart);
     }
 
-    @Override
-    public UpdateCartResponse update(UpdateCartRequest request) {
-        Cart cart = CartMapper.INSTANCE.cartFromUpdateRequest(request);
-        cartRepository.save(cart);
-        return CartMapper.INSTANCE.cartFromUpdateResponse(cart);
+    // Sepeti sil
+    public void deleteCart(String cartId) {
+        cartRepository.deleteById(cartId);
     }
 
-    @Override
-    public DeleteCartResponse delete(UUID id) {
-        Cart cart = cartRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
-        cartRepository.delete(cart);
-        return CartMapper.INSTANCE.cartFromDeleteResponse(cart);
+    // Sepeti güncelle
+    public void updateCart(Cart cart) {
+        cartRepository.update(cart);
     }
 }

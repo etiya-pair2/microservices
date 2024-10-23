@@ -1,37 +1,26 @@
 package com.etiya.cartservice.entity;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.UuidGenerator;
 
+
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name="carts")
-public class Cart {
-    @Id
-    @GeneratedValue()
-    @UuidGenerator()
+
+public class Cart implements Serializable {
     private UUID id;
-
-    @Column(name="customer_id")
     private UUID customerId;
-
-    @Column(name = "created_date")
     private Date createdDate;
-
-    @Column(name = "updated_date")
     private Date updatedDate;
-
-    @Column(name = "status")
     private Boolean status;
-
+    private List<CartItems> cartItems;
 }
